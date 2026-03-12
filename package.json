@@ -2,7 +2,7 @@
   "name": "wpf-xml-preview",
   "displayName": "WPF XML Preview",
   "description": "Real-time visual preview for XML files with WPF-style designer rendering. See Buttons, TextBoxes, Grids, and more come to life as you type.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "stescobedo",
   "author": {
     "name": "Sergio Triana Escobedo",

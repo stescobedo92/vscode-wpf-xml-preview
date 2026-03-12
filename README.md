@@ -4,7 +4,7 @@ A Visual Studio Code extension that brings **WPF-style visual rendering** to you
 
 ![VS Code](https://img.shields.io/badge/VS%20Code-1.85%2B-blue?logo=visualstudiocode)
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-1.0.0-orange)
+![Version](https://img.shields.io/badge/version-1.0.1-orange)
 [![Visual Studio Marketplace](https://img.shields.io/visual-studio-marketplace/v/stescobedo.wpf-xml-preview?label=Marketplace)](https://marketplace.visualstudio.com/items?itemName=stescobedo.wpf-xml-preview)
 
 ## The Problem
