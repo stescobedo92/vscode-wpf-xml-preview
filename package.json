@@ -41,7 +41,7 @@
   "badges": [
     {
       "url": "https://img.shields.io/github/license/stescobedo92/vscode-wpf-xml-preview",
-      "href": "https://github.com/stescobedo92/vscode-wpf-xml-preview/blob/master/LICENSE",
+      "href": "https://github.com/stescobedo92/vscode-wpf-xml-preview/blob/main/LICENSE",
       "description": "License"
     }
   ],
