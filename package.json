@@ -1,0 +1,115 @@
+{
+  "name": "wpf-xml-preview",
+  "displayName": "WPF XML Preview",
+  "description": "Real-time visual preview for XML files with WPF-style designer rendering. See Buttons, TextBoxes, Grids, and more come to life as you type.",
+  "version": "1.0.0",
+  "publisher": "stescobedo",
+  "author": {
+    "name": "Sergio Triana Escobedo",
+    "url": "https://github.com/stescobedo92"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stescobedo92/vscode-wpf-xml-preview"
+  },
+  "bugs": {
+    "url": "https://github.com/stescobedo92/vscode-wpf-xml-preview/issues"
+  },
+  "homepage": "https://github.com/stescobedo92/vscode-wpf-xml-preview#readme",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Visualization",
+    "Other"
+  ],
+  "keywords": [
+    "xml",
+    "wpf",
+    "xaml",
+    "preview",
+    "designer",
+    "visual",
+    "live preview",
+    "ui designer"
+  ],
+  "galleryBanner": {
+    "color": "#0e7490",
+    "theme": "dark"
+  },
+  "badges": [
+    {
+      "url": "https://img.shields.io/github/license/stescobedo92/vscode-wpf-xml-preview",
+      "href": "https://github.com/stescobedo92/vscode-wpf-xml-preview/blob/master/LICENSE",
+      "description": "License"
+    }
+  ],
+  "icon": "media/icon.png",
+  "activationEvents": [
+    "onLanguage:xml"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "xmlLivePreview.open",
+        "title": "XML: Open Live Preview",
+        "icon": {
+          "light": "media/preview-light.svg",
+          "dark": "media/preview-dark.svg"
+        }
+      },
+      {
+        "command": "xmlLivePreview.focusSidebar",
+        "title": "XML: Focus Sidebar Preview"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "xmlLivePreview",
+          "title": "XML Live Preview",
+          "icon": "media/activitybar-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "xmlLivePreview": [
+        {
+          "type": "webview",
+          "id": "xmlLivePreview.sidebarView",
+          "name": "Preview"
+        }
+      ]
+    },
+    "menus": {
+      "editor/title": [
+        {
+          "when": "resourceLangId == xml",
+          "command": "xmlLivePreview.open",
+          "group": "navigation"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "xmlLivePreview.open",
+        "key": "ctrl+shift+v",
+        "mac": "cmd+shift+v",
+        "when": "resourceLangId == xml"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "sharp": "^0.34.5",
+    "typescript": "^5.3.3"
+  }
+}

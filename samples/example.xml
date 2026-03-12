@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Application xmlns="http://schemas.example.com/app"
+             Title="My Application"
+             Version="1.0">
+
+  <Window Name="MainWindow" Width="800" Height="600">
+    <Grid Rows="3" Columns="2">
+
+      <Header Row="0" Column="0" ColumnSpan="2">
+        <TextBlock Text="Welcome to XML Live Preview" FontSize="24" FontWeight="Bold"/>
+        <Separator Margin="0,10,0,10"/>
+      </Header>
+
+      <Navigation Row="1" Column="0">
+        <Menu>
+          <MenuItem Label="Home" Icon="house" IsDefault="true"/>
+          <MenuItem Label="Settings" Icon="gear"/>
+          <MenuItem Label="About" Icon="info"/>
+        </Menu>
+      </Navigation>
+
+      <Content Row="1" Column="1">
+        <StackPanel Orientation="Vertical" Spacing="8">
+          <TextBox Placeholder="Enter your name..." Width="300"/>
+          <Button Content="Submit" Style="Primary" Width="120"/>
+          <Label>Edit this XML to see the preview update in real time!</Label>
+        </StackPanel>
+      </Content>
+
+      <Footer Row="2" Column="0" ColumnSpan="2">
+        <StatusBar>
+          <StatusItem Text="Ready" Align="Left"/>
+          <StatusItem Text="v1.0.0" Align="Right"/>
+        </StatusBar>
+      </Footer>
+
+    </Grid>
+  </Window>
+</Application>

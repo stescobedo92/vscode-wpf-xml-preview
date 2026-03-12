@@ -1,0 +1,565 @@
+/* Reset & base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--vscode-font-family, 'Segoe UI', Tahoma, sans-serif);
+  font-size: var(--vscode-font-size, 13px);
+  color: var(--vscode-editor-foreground);
+  background: var(--vscode-editor-background);
+  overflow-y: auto;
+}
+
+/* ── Toolbar ── */
+#toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: var(--vscode-titleBar-activeBackground, var(--vscode-editor-background));
+  border-bottom: 1px solid var(--vscode-panel-border, rgba(128,128,128,0.25));
+}
+
+#file-name {
+  font-weight: 600;
+  opacity: 0.85;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1;
+}
+
+#toolbar-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+#toolbar-actions button {
+  background: var(--vscode-button-secondaryBackground, rgba(128,128,128,0.2));
+  color: var(--vscode-button-secondaryForeground, var(--vscode-editor-foreground));
+  border: 1px solid var(--vscode-button-border, transparent);
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+#toolbar-actions button:hover {
+  background: var(--vscode-button-secondaryHoverBackground, rgba(128,128,128,0.35));
+}
+
+/* ── Preview container ── */
+#preview-container {
+  padding: 12px;
+}
+
+/* ════════════════════════════════════════════════════════════
+   TREE MODE STYLES
+   ════════════════════════════════════════════════════════════ */
+
+.tree-node {
+  margin-left: calc(var(--depth, 0) * 18px);
+  border-left: 1px solid var(--vscode-panel-border, rgba(128,128,128,0.2));
+  margin-bottom: 1px;
+}
+
+.tree-node:first-child { margin-left: 0; }
+
+.node-header {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  padding: 3px 6px;
+  border-radius: 3px;
+  line-height: 1.6;
+  flex-wrap: wrap;
+}
+
+.node-header:hover {
+  background: var(--vscode-list-hoverBackground, rgba(128,128,128,0.1));
+}
+
+.has-children > .node-header { user-select: none; }
+
+.toggle-arrow {
+  display: inline-block;
+  width: 14px;
+  font-size: 10px;
+  text-align: center;
+  transition: transform 0.15s ease;
+  color: var(--vscode-foreground);
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+.collapsed > .node-header .toggle-arrow { transform: rotate(-90deg); }
+
+.toggle-spacer { display: inline-block; width: 14px; flex-shrink: 0; }
+
+.tag-name {
+  font-weight: 600;
+  color: var(--vscode-symbolIcon-classForeground, #4ec9b0);
+}
+
+.attribute { margin-left: 4px; }
+.attr-name { color: var(--vscode-symbolIcon-propertyForeground, #9cdcfe); }
+.attr-eq { color: var(--vscode-editor-foreground); opacity: 0.5; }
+.attr-value { color: var(--vscode-symbolIcon-stringForeground, #ce9178); }
+
+.text-content {
+  color: var(--vscode-editor-foreground);
+  opacity: 0.85;
+  margin-left: 6px;
+  font-style: italic;
+}
+.text-content::before { content: '= '; opacity: 0.4; font-style: normal; }
+
+.mixed-text {
+  margin-left: calc(var(--depth, 0) * 18px + 20px);
+  padding: 2px 6px;
+  font-style: italic;
+  opacity: 0.7;
+  font-size: 0.92em;
+}
+
+.node-children { overflow: hidden; }
+.collapsed > .node-children { display: none; }
+
+/* ════════════════════════════════════════════════════════════
+   WPF VISUAL MODE STYLES
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Window ── */
+.wpf-window {
+  border: 1px solid var(--vscode-panel-border, #444);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--vscode-editor-background);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.wpf-window-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: #0078d4;
+  color: #fff;
+  font-size: 12px;
+}
+
+.wpf-window-title { font-weight: 600; }
+
+.wpf-window-btns { display: flex; gap: 10px; }
+.wpf-window-btns span { cursor: default; opacity: 0.8; font-size: 11px; }
+.wpf-btn-close:hover { color: #ff4444; }
+
+.wpf-window-body { padding: 10px; }
+
+.wpf-size-label {
+  text-align: center;
+  padding: 4px;
+  font-size: 10px;
+  opacity: 0.4;
+  border-top: 1px solid var(--vscode-panel-border, #333);
+}
+
+/* ── Control label (for containers) ── */
+.wpf-control-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.45;
+  padding: 2px 4px;
+  margin-bottom: 4px;
+}
+
+/* ── Generic container ── */
+.wpf-container {
+  border: 1px dashed var(--vscode-panel-border, rgba(128,128,128,0.3));
+  border-radius: 4px;
+  padding: 8px;
+  margin: 4px 0;
+}
+
+.wpf-collapsed > *:not(.wpf-control-label) { display: none; }
+
+/* ── Grid ── */
+.wpf-grid {
+  border: 1px dashed rgba(0,120,212,0.3);
+  border-radius: 4px;
+  padding: 8px;
+  margin: 4px 0;
+  background: rgba(0,120,212,0.03);
+}
+
+/* ── StackPanel ── */
+.wpf-stackpanel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  margin: 4px 0;
+  border: 1px dashed rgba(128,128,128,0.2);
+  border-radius: 4px;
+}
+
+.wpf-stackpanel.wpf-horizontal {
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* ── DockPanel ── */
+.wpf-dockpanel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  margin: 4px 0;
+  border: 1px dashed rgba(128,128,128,0.2);
+  border-radius: 4px;
+}
+
+/* ── WrapPanel ── */
+.wpf-wrappanel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px;
+  margin: 4px 0;
+  border: 1px dashed rgba(128,128,128,0.2);
+  border-radius: 4px;
+}
+
+/* ── Button ── */
+.wpf-button {
+  display: inline-block;
+  padding: 5px 16px;
+  border: 1px solid var(--vscode-button-border, rgba(128,128,128,0.4));
+  border-radius: 3px;
+  background: var(--vscode-button-secondaryBackground, #333);
+  color: var(--vscode-button-secondaryForeground, #ccc);
+  font-size: 13px;
+  cursor: default;
+  text-align: center;
+}
+
+.wpf-button.wpf-primary {
+  background: #0078d4;
+  color: #fff;
+  border-color: #0078d4;
+}
+
+.wpf-button.wpf-disabled {
+  opacity: 0.4;
+}
+
+/* ── TextBlock / Label ── */
+.wpf-textblock {
+  padding: 2px 0;
+  line-height: 1.4;
+}
+
+.wpf-label {
+  padding: 2px 0;
+  line-height: 1.4;
+  opacity: 0.85;
+}
+
+/* ── TextBox / PasswordBox ── */
+.wpf-textbox {
+  display: block;
+  padding: 5px 8px;
+  border: 1px solid var(--vscode-input-border, rgba(128,128,128,0.4));
+  border-radius: 3px;
+  background: var(--vscode-input-background, #1e1e1e);
+  color: var(--vscode-input-foreground, #ccc);
+  font-size: 13px;
+  width: 100%;
+  max-width: 300px;
+  outline: none;
+}
+
+.wpf-textbox:focus {
+  border-color: #0078d4;
+}
+
+/* ── CheckBox / RadioButton ── */
+.wpf-checkbox-wrap,
+.wpf-radio-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 0;
+}
+
+.wpf-checkbox, .wpf-radio {
+  accent-color: #0078d4;
+}
+
+/* ── ComboBox ── */
+.wpf-combobox {
+  padding: 5px 8px;
+  border: 1px solid var(--vscode-input-border, rgba(128,128,128,0.4));
+  border-radius: 3px;
+  background: var(--vscode-input-background, #1e1e1e);
+  color: var(--vscode-input-foreground, #ccc);
+  font-size: 13px;
+}
+
+/* ── ListBox ── */
+.wpf-listbox {
+  border: 1px solid var(--vscode-input-border, rgba(128,128,128,0.4));
+  border-radius: 3px;
+  background: var(--vscode-input-background, #1e1e1e);
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.wpf-listbox-item {
+  padding: 4px 8px;
+  cursor: default;
+}
+
+.wpf-listbox-item:hover {
+  background: var(--vscode-list-hoverBackground, rgba(128,128,128,0.15));
+}
+
+/* ── Slider ── */
+.wpf-slider {
+  width: 100%;
+  max-width: 200px;
+  accent-color: #0078d4;
+}
+
+/* ── ProgressBar ── */
+.wpf-progressbar {
+  height: 18px;
+  border-radius: 3px;
+  background: var(--vscode-input-background, #1e1e1e);
+  border: 1px solid var(--vscode-input-border, rgba(128,128,128,0.3));
+  overflow: hidden;
+}
+
+.wpf-progressbar-fill {
+  height: 100%;
+  background: #0078d4;
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}
+
+/* ── Image placeholder ── */
+.wpf-image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60px;
+  min-width: 80px;
+  border: 2px dashed rgba(128,128,128,0.3);
+  border-radius: 4px;
+  font-size: 11px;
+  opacity: 0.5;
+  text-align: center;
+  padding: 8px;
+}
+
+/* ── Separator ── */
+.wpf-separator {
+  border: none;
+  border-top: 1px solid var(--vscode-panel-border, rgba(128,128,128,0.3));
+  margin: 6px 0;
+}
+
+/* ── Menu ── */
+.wpf-menu {
+  display: flex;
+  gap: 2px;
+  background: rgba(128,128,128,0.08);
+  padding: 2px;
+  border-radius: 4px;
+  margin: 4px 0;
+}
+
+.wpf-menu-item {
+  padding: 4px 12px;
+  border-radius: 3px;
+  font-size: 12px;
+  cursor: default;
+}
+
+.wpf-menu-item:hover {
+  background: rgba(128,128,128,0.15);
+}
+
+.wpf-menu-active {
+  background: rgba(0,120,212,0.2);
+  color: #4fc3f7;
+}
+
+/* ── TabControl ── */
+.wpf-tabcontrol {
+  border: 1px solid var(--vscode-panel-border, rgba(128,128,128,0.3));
+  border-radius: 4px;
+  margin: 4px 0;
+  overflow: hidden;
+}
+
+.wpf-tab-bar {
+  display: flex;
+  background: rgba(128,128,128,0.08);
+  border-bottom: 1px solid var(--vscode-panel-border, rgba(128,128,128,0.3));
+}
+
+.wpf-tab {
+  padding: 6px 14px;
+  font-size: 12px;
+  cursor: default;
+  border-bottom: 2px solid transparent;
+}
+
+.wpf-tab-active {
+  border-bottom-color: #0078d4;
+  background: var(--vscode-editor-background);
+}
+
+.wpf-tab-content { padding: 10px; }
+
+/* ── GroupBox ── */
+.wpf-groupbox {
+  border: 1px solid var(--vscode-panel-border, rgba(128,128,128,0.3));
+  border-radius: 4px;
+  margin: 6px 0;
+  padding: 0;
+}
+
+.wpf-groupbox-header {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  background: rgba(128,128,128,0.08);
+  border-bottom: 1px solid var(--vscode-panel-border, rgba(128,128,128,0.2));
+}
+
+.wpf-groupbox-body { padding: 8px 10px; }
+
+/* ── Expander ── */
+.wpf-expander {
+  border: 1px solid var(--vscode-panel-border, rgba(128,128,128,0.2));
+  border-radius: 4px;
+  margin: 4px 0;
+}
+
+.wpf-expander-header {
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: default;
+  background: rgba(128,128,128,0.05);
+}
+
+.wpf-expander-body { padding: 8px 10px; }
+
+/* ── StatusBar ── */
+.wpf-statusbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 10px;
+  background: #0078d4;
+  color: #fff;
+  font-size: 11px;
+  border-radius: 3px;
+  margin-top: 4px;
+}
+
+.wpf-statusbar-item { opacity: 0.9; }
+.wpf-statusbar-item.wpf-right { margin-left: auto; }
+
+/* ── Border ── */
+.wpf-border {
+  border: 1px solid var(--vscode-panel-border, rgba(128,128,128,0.3));
+  border-radius: 3px;
+  padding: 8px;
+  margin: 4px 0;
+}
+
+/* ── DataGrid ── */
+.wpf-datagrid {
+  border: 1px solid var(--vscode-panel-border, rgba(128,128,128,0.3));
+  border-radius: 4px;
+  margin: 4px 0;
+  overflow: hidden;
+}
+
+.wpf-datagrid-header {
+  display: flex;
+  background: rgba(0,120,212,0.15);
+  font-weight: 600;
+  font-size: 11px;
+}
+
+.wpf-datagrid-row {
+  display: flex;
+  border-top: 1px solid rgba(128,128,128,0.15);
+  font-size: 11px;
+}
+
+.wpf-datagrid-row:hover {
+  background: rgba(128,128,128,0.08);
+}
+
+.wpf-datagrid-cell {
+  flex: 1;
+  padding: 4px 8px;
+}
+
+/* ════════════════════════════════════════════════════════════
+   ERROR / EMPTY / UTILITY
+   ════════════════════════════════════════════════════════════ */
+
+#error-overlay {
+  position: fixed;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  padding: 10px 14px;
+  background: var(--vscode-inputValidation-errorBackground, #5a1d1d);
+  border: 1px solid var(--vscode-inputValidation-errorBorder, #be1100);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 20;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+#error-icon { font-size: 18px; flex-shrink: 0; }
+
+#error-message {
+  font-size: 12px;
+  color: var(--vscode-errorForeground, #f48771);
+  word-break: break-word;
+}
+
+#empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  text-align: center;
+  opacity: 0.5;
+}
+
+.empty-icon { font-size: 48px; margin-bottom: 12px; }
+
+.hidden { display: none !important; }

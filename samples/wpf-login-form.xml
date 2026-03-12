@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Window Title="User Login" Width="450" Height="500"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
+  <Grid Rows="3" Columns="1">
+
+    <!-- Header -->
+    <StackPanel Orientation="Vertical">
+      <TextBlock Text="Welcome Back" FontSize="28" FontWeight="Bold"/>
+      <TextBlock Text="Sign in to continue to your dashboard" FontSize="13"/>
+      <Separator Margin="0,12,0,12"/>
+    </StackPanel>
+
+    <!-- Login Form -->
+    <GroupBox Header="Credentials">
+      <StackPanel Orientation="Vertical" Spacing="10">
+
+        <Label Content="Email Address"/>
+        <TextBox Placeholder="user@example.com" Width="280"/>
+
+        <Label Content="Password"/>
+        <PasswordBox Placeholder="Enter your password" Width="280"/>
+
+        <CheckBox Content="Remember me" IsChecked="True"/>
+
+        <StackPanel Orientation="Horizontal" Spacing="8">
+          <Button Content="Sign In" Style="Primary" Width="120"/>
+          <Button Content="Cancel" Width="100"/>
+        </StackPanel>
+
+      </StackPanel>
+    </GroupBox>
+
+    <!-- Settings Section -->
+    <TabControl>
+      <TabItem Header="Options">
+        <StackPanel Orientation="Vertical" Spacing="6">
+          <CheckBox Content="Enable two-factor authentication"/>
+          <CheckBox Content="Send login notifications" IsChecked="True"/>
+          <Label Content="Session timeout:"/>
+          <ComboBox Width="180">
+            <ComboBoxItem Content="15 minutes"/>
+            <ComboBoxItem Content="30 minutes"/>
+            <ComboBoxItem Content="1 hour"/>
+            <ComboBoxItem Content="Never"/>
+          </ComboBox>
+        </StackPanel>
+      </TabItem>
+      <TabItem Header="Advanced">
+        <StackPanel Orientation="Vertical" Spacing="6">
+          <Label Content="Server region:"/>
+          <RadioButton Content="US East" GroupName="region" IsChecked="True"/>
+          <RadioButton Content="EU West" GroupName="region"/>
+          <RadioButton Content="Asia Pacific" GroupName="region"/>
+          <Separator/>
+          <Label Content="Connection quality:"/>
+          <ProgressBar Value="75" Maximum="100"/>
+          <Slider Minimum="0" Maximum="100" Value="75"/>
+        </StackPanel>
+      </TabItem>
+      <TabItem Header="About">
+        <TextBlock Text="Version 2.1.0 - Build 2026.03"/>
+      </TabItem>
+    </TabControl>
+
+    <!-- Status Bar -->
+    <StatusBar>
+      <StatusItem Text="Ready" Align="Left"/>
+      <StatusItem Text="Secure Connection (TLS 1.3)" Align="Right"/>
+    </StatusBar>
+
+  </Grid>
+</Window>

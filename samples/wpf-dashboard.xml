@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Window Title="Dashboard - My Application" Width="900" Height="650"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+
+  <DockPanel>
+
+    <!-- Top Menu Bar -->
+    <Menu>
+      <MenuItem Label="File"/>
+      <MenuItem Label="Edit"/>
+      <MenuItem Label="View" IsDefault="true"/>
+      <MenuItem Label="Tools"/>
+    </Menu>
+
+    <!-- Main Content -->
+    <Grid Rows="2" Columns="2">
+
+      <!-- Left Sidebar -->
+      <GroupBox Header="Navigation">
+        <ListBox>
+          <ListBoxItem Content="Dashboard"/>
+          <ListBoxItem Content="Users"/>
+          <ListBoxItem Content="Reports"/>
+          <ListBoxItem Content="Settings"/>
+          <ListBoxItem Content="Logs"/>
+        </ListBox>
+      </GroupBox>
+
+      <!-- Center Content -->
+      <StackPanel Orientation="Vertical" Spacing="8">
+
+        <TextBlock Text="System Overview" FontSize="20" FontWeight="Bold"/>
+        <Separator/>
+
+        <Expander Header="Server Performance" IsExpanded="True">
+          <StackPanel Orientation="Vertical" Spacing="6">
+            <Label Content="CPU Usage: 45%"/>
+            <Label Content="Memory: 68%"/>
+            <ProgressBar Value="68" Maximum="100"/>
+            <Label Content="Disk I/O: 23%"/>
+            <ProgressBar Value="23" Maximum="100"/>
+          </StackPanel>
+        </Expander>
+
+        <Expander Header="Active Connections" IsExpanded="False">
+          <DataGrid>
+            <DataGridTextColumn Header="User" Binding="Name"/>
+            <DataGridTextColumn Header="IP Address" Binding="IP"/>
+            <DataGridTextColumn Header="Status" Binding="Status"/>
+            <DataGridTextColumn Header="Duration" Binding="Duration"/>
+          </DataGrid>
+        </Expander>
+
+        <Border BorderBrush="#0078d4" BorderThickness="1" CornerRadius="4" Padding="10">
+          <StackPanel Orientation="Horizontal" Spacing="12">
+            <Button Content="Refresh" Style="Primary" Width="100"/>
+            <Button Content="Export Report" Width="120"/>
+            <Button Content="Shutdown" Width="100" IsEnabled="false"/>
+          </StackPanel>
+        </Border>
+
+      </StackPanel>
+
+      <!-- Right Panel -->
+      <GroupBox Header="Quick Stats">
+        <StackPanel Orientation="Vertical" Spacing="8">
+          <TextBlock Text="Active Users" FontWeight="Bold"/>
+          <TextBlock Text="1,247" FontSize="24"/>
+          <Separator/>
+          <TextBlock Text="Uptime" FontWeight="Bold"/>
+          <TextBlock Text="99.97%" FontSize="24"/>
+          <Separator/>
+          <TextBlock Text="Requests/min" FontWeight="Bold"/>
+          <TextBlock Text="3,891" FontSize="24"/>
+          <Separator/>
+          <Label Content="Alert threshold:"/>
+          <Slider Minimum="0" Maximum="100" Value="80"/>
+        </StackPanel>
+      </GroupBox>
+
+    </Grid>
+
+    <!-- Bottom Status Bar -->
+    <StatusBar>
+      <StatusItem Text="Connected to: prod-server-01" Align="Left"/>
+      <StatusItem Text="Last refresh: 2 seconds ago" Align="Right"/>
+    </StatusBar>
+
+  </DockPanel>
+</Window>
