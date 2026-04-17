@@ -47,6 +47,30 @@ Renders XML elements as styled UI controls:
 | `<Border>` | Configurable border container |
 | `<Separator>` | Horizontal divider |
 | `<Image>` | Image placeholder |
+| `<Canvas>` | Absolute positioning via `Canvas.Left` / `Canvas.Top` |
+| `<UniformGrid>` | Equal-cell grid (`Rows`, `Columns`) |
+| `<Viewbox>` | Scaling container (`Stretch`) |
+| `<ScrollViewer>` | Scrollable region (`Width`, `Height`) |
+| `<RichTextBox>` | Multi-line editable textarea |
+| `<DatePicker>` | Native date picker |
+| `<Calendar>` | Mini month calendar (current month) |
+| `<ToggleButton>` | Button with pressed/unpressed state (`IsChecked`) |
+| `<RepeatButton>` | Repeat-style button |
+| `<Hyperlink>` | Clickable link (`NavigateUri`) |
+| `<TreeView>` / `<TreeViewItem>` | Collapsible hierarchical tree (`Header`, `IsExpanded`) |
+| `<ListView>` + `<GridView>` / `<GridViewColumn>` | Column-based list view |
+| `<ItemsControl>` / `<ContentControl>` | Generic item/content containers |
+| `<UserControl>` | User control outline (shows `x:Class`) |
+| `<Frame>` / `<Page>` | Navigation host and page container |
+| `<Rectangle>` | SVG rectangle (`Fill`, `Stroke`, `StrokeThickness`, `RadiusX/Y`) |
+| `<Ellipse>` | SVG ellipse (`Fill`, `Stroke`, `StrokeThickness`) |
+| `<Line>` | SVG line (`X1`, `Y1`, `X2`, `Y2`, `Stroke`) |
+| `<Polygon>` / `<Polyline>` | SVG polygon/polyline (`Points`, `Fill`, `Stroke`) |
+| `<Path>` | SVG path (`Data`) |
+| `<ToolBarTray>` / `<ToolBar>` | Toolbar band with toolbars |
+| `<Popup>` | Floating popup box (`IsOpen`) |
+| `<ToolTip>` | Tooltip-styled block |
+| `<ContextMenu>` | Styled right-click-style menu |
 
 ### Tree View Mode
 Toggle to a hierarchical XML tree with:
@@ -108,11 +132,12 @@ The extension includes sample XML files to get started:
 
 The renderer recognizes common WPF attributes:
 
-- **Layout**: `Width`, `Height`, `Margin`, `Padding`, `Orientation`, `Rows`, `Columns`
-- **Content**: `Text`, `Content`, `Header`, `Label`, `Placeholder`, `Title`
-- **Style**: `FontSize`, `FontWeight`, `Foreground`, `Background`, `BorderBrush`, `BorderThickness`, `CornerRadius`
-- **State**: `IsChecked`, `IsEnabled`, `IsExpanded`, `IsSelected`, `IsDefault`, `IsReadOnly`
-- **Data**: `Value`, `Minimum`, `Maximum`, `SelectedItem`, `GroupName`, `Binding`
+- **Layout**: `Width`, `Height`, `Margin`, `Padding`, `Orientation`, `Rows`, `Columns`, `Canvas.Left`, `Canvas.Top`, `Canvas.Right`, `Canvas.Bottom`, `Stretch`
+- **Content**: `Text`, `Content`, `Header`, `Label`, `Placeholder`, `Title`, `NavigateUri`, `Source`
+- **Style**: `FontSize`, `FontWeight`, `Foreground`, `Background`, `BorderBrush`, `BorderThickness`, `CornerRadius`, `Fill`, `Stroke`, `StrokeThickness`
+- **State**: `IsChecked`, `IsEnabled`, `IsExpanded`, `IsSelected`, `IsDefault`, `IsReadOnly`, `IsOpen`
+- **Data**: `Value`, `Minimum`, `Maximum`, `SelectedItem`, `SelectedDate`, `GroupName`, `Binding`, `DisplayMemberBinding`
+- **Shapes**: `X1`, `Y1`, `X2`, `Y2`, `Points`, `Data`, `RadiusX`, `RadiusY`
 
 ## Requirements
 
