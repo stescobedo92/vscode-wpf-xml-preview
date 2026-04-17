@@ -161,6 +161,58 @@ const WPF_RENDERERS = {
     return panel;
   },
 
+  Canvas: (el) => {
+    const canvas = div('wpf-canvas');
+    const label = div('wpf-control-label');
+    label.textContent = 'Canvas';
+    canvas.appendChild(label);
+    if (attr(el, 'Width')) canvas.style.width = attr(el, 'Width') + 'px';
+    if (attr(el, 'Height')) canvas.style.height = attr(el, 'Height') + 'px';
+    for (const child of el.children) {
+      const rendered = buildWpfNode(child);
+      rendered.style.position = 'absolute';
+      if (attr(child, 'Canvas.Left')) rendered.style.left = attr(child, 'Canvas.Left') + 'px';
+      if (attr(child, 'Canvas.Top')) rendered.style.top = attr(child, 'Canvas.Top') + 'px';
+      if (attr(child, 'Canvas.Right')) rendered.style.right = attr(child, 'Canvas.Right') + 'px';
+      if (attr(child, 'Canvas.Bottom')) rendered.style.bottom = attr(child, 'Canvas.Bottom') + 'px';
+      canvas.appendChild(rendered);
+    }
+    return canvas;
+  },
+
+  UniformGrid: (el) => {
+    const grid = div('wpf-uniformgrid');
+    const cols = parseInt(attr(el, 'Columns') || '0', 10);
+    const rows = parseInt(attr(el, 'Rows') || '0', 10);
+    const count = el.children.length;
+    const c = cols || Math.ceil(Math.sqrt(count)) || 1;
+    const r = rows || Math.ceil(count / c);
+    grid.style.gridTemplateColumns = `repeat(${c}, 1fr)`;
+    grid.style.gridTemplateRows = `repeat(${r}, auto)`;
+    const label = div('wpf-control-label');
+    label.textContent = `UniformGrid [${r}R x ${c}C]`;
+    grid.appendChild(label);
+    appendChildren(grid, el);
+    return grid;
+  },
+
+  Viewbox: (el) => {
+    const vb = div('wpf-viewbox');
+    const label = div('wpf-control-label');
+    label.textContent = `Viewbox (${attr(el, 'Stretch') || 'Uniform'})`;
+    vb.appendChild(label);
+    appendChildren(vb, el);
+    return vb;
+  },
+
+  ScrollViewer: (el) => {
+    const sv = div('wpf-scrollviewer');
+    if (attr(el, 'Height')) sv.style.height = attr(el, 'Height') + 'px';
+    if (attr(el, 'Width')) sv.style.width = attr(el, 'Width') + 'px';
+    appendChildren(sv, el);
+    return sv;
+  },
+
   // ── Controls ──
   Button: (el) => {
     const btn = document.createElement('button');
@@ -204,6 +256,76 @@ const WPF_RENDERERS = {
     input.placeholder = attr(el, 'Placeholder') || 'Password';
     if (attr(el, 'Width')) input.style.width = attr(el, 'Width') + 'px';
     return input;
+  },
+
+  RichTextBox: (el) => {
+    const ta = document.createElement('textarea');
+    ta.className = 'wpf-richtextbox';
+    ta.placeholder = attr(el, 'Placeholder') || '';
+    ta.value = getDirectText(el);
+    if (attr(el, 'Width')) ta.style.width = attr(el, 'Width') + 'px';
+    if (attr(el, 'Height')) ta.style.height = attr(el, 'Height') + 'px';
+    if (attr(el, 'IsReadOnly') === 'True') ta.readOnly = true;
+    return ta;
+  },
+
+  DatePicker: (el) => {
+    const input = document.createElement('input');
+    input.className = 'wpf-datepicker';
+    input.type = 'date';
+    if (attr(el, 'SelectedDate')) input.value = attr(el, 'SelectedDate').slice(0, 10);
+    if (attr(el, 'Width')) input.style.width = attr(el, 'Width') + 'px';
+    return input;
+  },
+
+  Calendar: (el) => {
+    const cal = div('wpf-calendar');
+    const header = div('wpf-calendar-header');
+    const now = new Date();
+    header.textContent = now.toLocaleString('default', { month: 'long', year: 'numeric' });
+    cal.appendChild(header);
+    const days = div('wpf-calendar-grid');
+    ['S','M','T','W','T','F','S'].forEach((d) => {
+      const c = span('wpf-calendar-dow', d);
+      days.appendChild(c);
+    });
+    const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    const firstDow = new Date(now.getFullYear(), now.getMonth(), 1).getDay();
+    for (let i = 0; i < firstDow; i++) days.appendChild(div('wpf-calendar-day wpf-empty'));
+    for (let d = 1; d <= daysInMonth; d++) {
+      const cell = div('wpf-calendar-day');
+      cell.textContent = String(d);
+      if (d === now.getDate()) cell.classList.add('wpf-today');
+      days.appendChild(cell);
+    }
+    cal.appendChild(days);
+    return cal;
+  },
+
+  ToggleButton: (el) => {
+    const btn = document.createElement('button');
+    btn.className = 'wpf-button wpf-togglebutton';
+    btn.textContent = attr(el, 'Content') || getDirectText(el) || 'Toggle';
+    if (attr(el, 'IsChecked') === 'True') btn.classList.add('wpf-toggle-on');
+    if (attr(el, 'Width')) btn.style.width = attr(el, 'Width') + 'px';
+    return btn;
+  },
+
+  RepeatButton: (el) => {
+    const btn = document.createElement('button');
+    btn.className = 'wpf-button wpf-repeatbutton';
+    btn.textContent = attr(el, 'Content') || getDirectText(el) || 'Repeat';
+    if (attr(el, 'Width')) btn.style.width = attr(el, 'Width') + 'px';
+    return btn;
+  },
+
+  Hyperlink: (el) => {
+    const a = document.createElement('a');
+    a.className = 'wpf-hyperlink';
+    a.textContent = attr(el, 'Content') || getDirectText(el) || attr(el, 'NavigateUri') || 'link';
+    a.href = attr(el, 'NavigateUri') || '#';
+    a.rel = 'noopener noreferrer';
+    return a;
   },
 
   CheckBox: (el) => {
@@ -380,6 +502,148 @@ const WPF_RENDERERS = {
     return border;
   },
 
+  // ── TreeView ──
+  TreeView: (el) => {
+    const tv = div('wpf-treeview');
+    appendChildren(tv, el);
+    return tv;
+  },
+
+  TreeViewItem: (el) => {
+    const wrap = div('wpf-treeviewitem');
+    const header = div('wpf-treeviewitem-header');
+    const expanded = attr(el, 'IsExpanded') !== 'False';
+    header.textContent = (el.children.length > 0 ? (expanded ? '\u25BC ' : '\u25B6 ') : '\u2022 ')
+      + (attr(el, 'Header') || getDirectText(el) || 'Item');
+    wrap.appendChild(header);
+    if (expanded && el.children.length > 0) {
+      const children = div('wpf-treeviewitem-children');
+      appendChildren(children, el);
+      wrap.appendChild(children);
+    }
+    return wrap;
+  },
+
+  // ── ListView + GridView ──
+  ListView: (el) => {
+    const lv = div('wpf-listview');
+    const gridView = el.querySelector('GridView, ListView\\.View > GridView');
+    const cols = gridView ? gridView.querySelectorAll('GridViewColumn') : null;
+    if (cols && cols.length > 0) {
+      const headerRow = div('wpf-listview-header');
+      cols.forEach((c) => {
+        const cell = span('wpf-listview-cell', attr(c, 'Header') || attr(c, 'DisplayMemberBinding') || '');
+        if (attr(c, 'Width')) cell.style.flex = `0 0 ${attr(c, 'Width')}px`;
+        headerRow.appendChild(cell);
+      });
+      lv.appendChild(headerRow);
+      const items = Array.from(el.children).filter((c) => c.tagName !== 'GridView' && c.tagName !== 'ListView.View');
+      items.forEach((item) => {
+        const row = div('wpf-listview-row');
+        cols.forEach(() => row.appendChild(span('wpf-listview-cell', attr(item, 'Content') || getDirectText(item) || '...')));
+        lv.appendChild(row);
+      });
+    } else {
+      for (const child of el.children) {
+        if (child.tagName === 'GridView' || child.tagName === 'ListView.View') continue;
+        const item = div('wpf-listbox-item');
+        item.textContent = attr(child, 'Content') || getDirectText(child) || child.tagName;
+        lv.appendChild(item);
+      }
+    }
+    return lv;
+  },
+
+  // ── Generic containers ──
+  ItemsControl: (el) => {
+    const c = div('wpf-itemscontrol');
+    const label = div('wpf-control-label');
+    label.textContent = 'ItemsControl';
+    c.appendChild(label);
+    appendChildren(c, el);
+    return c;
+  },
+
+  ContentControl: (el) => {
+    const c = div('wpf-contentcontrol');
+    appendChildren(c, el);
+    return c;
+  },
+
+  UserControl: (el) => {
+    const c = div('wpf-usercontrol');
+    const label = div('wpf-control-label');
+    label.textContent = 'UserControl' + (attr(el, 'x:Class') ? ` (${attr(el, 'x:Class')})` : '');
+    c.appendChild(label);
+    appendChildren(c, el);
+    return c;
+  },
+
+  Frame: (el) => {
+    const c = div('wpf-frame');
+    const label = div('wpf-control-label');
+    label.textContent = 'Frame' + (attr(el, 'Source') ? ` → ${attr(el, 'Source')}` : '');
+    c.appendChild(label);
+    appendChildren(c, el);
+    return c;
+  },
+
+  Page: (el) => {
+    const c = div('wpf-page');
+    const label = div('wpf-control-label');
+    label.textContent = 'Page' + (attr(el, 'Title') ? ` "${attr(el, 'Title')}"` : '');
+    c.appendChild(label);
+    appendChildren(c, el);
+    return c;
+  },
+
+  // ── Shapes (SVG) ──
+  Rectangle: (el) => makeShape('rect', el),
+  Ellipse: (el) => makeShape('ellipse', el),
+  Line: (el) => makeShape('line', el),
+  Polygon: (el) => makeShape('polygon', el),
+  Polyline: (el) => makeShape('polyline', el),
+  Path: (el) => makeShape('path', el),
+
+  // ── ToolBar ──
+  ToolBarTray: (el) => {
+    const tray = div('wpf-toolbartray');
+    appendChildren(tray, el);
+    return tray;
+  },
+
+  ToolBar: (el) => {
+    const bar = div('wpf-toolbar');
+    appendChildren(bar, el);
+    return bar;
+  },
+
+  // ── Popup / ToolTip / ContextMenu ──
+  Popup: (el) => {
+    const p = div('wpf-popup');
+    const label = div('wpf-control-label');
+    label.textContent = 'Popup' + (attr(el, 'IsOpen') === 'True' ? ' (open)' : '');
+    p.appendChild(label);
+    appendChildren(p, el);
+    return p;
+  },
+
+  ToolTip: (el) => {
+    const t = div('wpf-tooltip');
+    t.textContent = attr(el, 'Content') || getDirectText(el) || 'Tooltip';
+    return t;
+  },
+
+  ContextMenu: (el) => {
+    const m = div('wpf-contextmenu');
+    for (const child of el.children) {
+      const item = div('wpf-menu-item');
+      item.textContent = attr(child, 'Header') || attr(child, 'Label') || getDirectText(child) || child.tagName;
+      m.appendChild(item);
+    }
+    return m;
+  },
+
   // ── DataGrid (simple table) ──
   DataGrid: (el) => {
     const wrap = div('wpf-datagrid');
@@ -554,6 +818,56 @@ function appendChildren(parent, xmlEl) {
   for (const child of xmlEl.children) {
     parent.appendChild(buildWpfNode(child));
   }
+}
+
+function makeShape(kind, el) {
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const w = parseFloat(attr(el, 'Width')) || 60;
+  const h = parseFloat(attr(el, 'Height')) || 40;
+  const fill = attr(el, 'Fill') || 'transparent';
+  const stroke = attr(el, 'Stroke') || '#888';
+  const strokeW = attr(el, 'StrokeThickness') || '1';
+
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('class', 'wpf-shape');
+  svg.setAttribute('width', String(w));
+  svg.setAttribute('height', String(h));
+  svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+
+  let shape;
+  if (kind === 'rect') {
+    shape = document.createElementNS(SVG_NS, 'rect');
+    shape.setAttribute('x', '0');
+    shape.setAttribute('y', '0');
+    shape.setAttribute('width', String(w));
+    shape.setAttribute('height', String(h));
+    if (attr(el, 'RadiusX')) shape.setAttribute('rx', attr(el, 'RadiusX'));
+    if (attr(el, 'RadiusY')) shape.setAttribute('ry', attr(el, 'RadiusY'));
+  } else if (kind === 'ellipse') {
+    shape = document.createElementNS(SVG_NS, 'ellipse');
+    shape.setAttribute('cx', String(w / 2));
+    shape.setAttribute('cy', String(h / 2));
+    shape.setAttribute('rx', String(w / 2));
+    shape.setAttribute('ry', String(h / 2));
+  } else if (kind === 'line') {
+    shape = document.createElementNS(SVG_NS, 'line');
+    shape.setAttribute('x1', attr(el, 'X1') || '0');
+    shape.setAttribute('y1', attr(el, 'Y1') || '0');
+    shape.setAttribute('x2', attr(el, 'X2') || String(w));
+    shape.setAttribute('y2', attr(el, 'Y2') || String(h));
+  } else if (kind === 'polygon' || kind === 'polyline') {
+    shape = document.createElementNS(SVG_NS, kind);
+    shape.setAttribute('points', attr(el, 'Points') || `0,0 ${w},0 ${w / 2},${h}`);
+  } else if (kind === 'path') {
+    shape = document.createElementNS(SVG_NS, 'path');
+    shape.setAttribute('d', attr(el, 'Data') || `M0 0 L${w} ${h}`);
+  }
+
+  shape.setAttribute('fill', kind === 'line' || kind === 'polyline' ? 'none' : fill);
+  shape.setAttribute('stroke', stroke);
+  shape.setAttribute('stroke-width', strokeW);
+  svg.appendChild(shape);
+  return /** @type {any} */ (svg);
 }
 
 function applyMargin(el, xmlNode) {

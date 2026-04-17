@@ -563,3 +563,243 @@ body {
 .empty-icon { font-size: 48px; margin-bottom: 12px; }
 
 .hidden { display: none !important; }
+
+/* ════════════════════════════════════════════════════════════
+   EXTENDED WPF CONTROLS (v1.1)
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Canvas ── */
+.wpf-canvas {
+  position: relative;
+  min-height: 120px;
+  padding: 8px;
+  margin: 4px 0;
+  border: 1px dashed rgba(128,128,128,0.25);
+  border-radius: 4px;
+  background: rgba(128,128,128,0.03);
+}
+
+/* ── UniformGrid ── */
+.wpf-uniformgrid {
+  display: grid;
+  gap: 6px;
+  padding: 8px;
+  margin: 4px 0;
+  border: 1px dashed rgba(128,128,128,0.2);
+  border-radius: 4px;
+}
+.wpf-uniformgrid > .wpf-control-label { grid-column: 1 / -1; }
+
+/* ── Viewbox ── */
+.wpf-viewbox {
+  display: inline-flex;
+  flex-direction: column;
+  padding: 8px;
+  margin: 4px 0;
+  border: 1px dashed rgba(128,128,128,0.25);
+  border-radius: 4px;
+}
+
+/* ── ScrollViewer ── */
+.wpf-scrollviewer {
+  overflow: auto;
+  padding: 6px;
+  margin: 4px 0;
+  border: 1px solid rgba(128,128,128,0.25);
+  border-radius: 4px;
+  max-height: 240px;
+}
+
+/* ── RichTextBox ── */
+.wpf-richtextbox {
+  width: 100%;
+  min-height: 60px;
+  padding: 6px 8px;
+  background: var(--vscode-input-background, #1e1e1e);
+  color: var(--vscode-input-foreground, #ccc);
+  border: 1px solid var(--vscode-input-border, rgba(128,128,128,0.4));
+  border-radius: 3px;
+  font-family: var(--vscode-font-family);
+  font-size: 13px;
+  resize: vertical;
+}
+
+/* ── DatePicker ── */
+.wpf-datepicker {
+  padding: 4px 8px;
+  background: var(--vscode-input-background, #1e1e1e);
+  color: var(--vscode-input-foreground, #ccc);
+  border: 1px solid var(--vscode-input-border, rgba(128,128,128,0.4));
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+/* ── Calendar ── */
+.wpf-calendar {
+  display: inline-block;
+  padding: 8px;
+  margin: 4px 0;
+  border: 1px solid var(--vscode-panel-border, rgba(128,128,128,0.3));
+  border-radius: 4px;
+  background: rgba(128,128,128,0.05);
+}
+.wpf-calendar-header {
+  text-align: center;
+  font-weight: 600;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+.wpf-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 26px);
+  gap: 2px;
+}
+.wpf-calendar-dow {
+  text-align: center;
+  font-size: 10px;
+  opacity: 0.6;
+  padding: 2px 0;
+}
+.wpf-calendar-day {
+  text-align: center;
+  padding: 3px 0;
+  font-size: 11px;
+  border-radius: 2px;
+}
+.wpf-calendar-day:hover { background: rgba(128,128,128,0.2); }
+.wpf-calendar-day.wpf-today {
+  background: #0078d4;
+  color: #fff;
+  font-weight: 600;
+}
+.wpf-calendar-day.wpf-empty { visibility: hidden; }
+
+/* ── ToggleButton / RepeatButton ── */
+.wpf-togglebutton.wpf-toggle-on {
+  background: #0078d4;
+  color: #fff;
+  border-color: #0078d4;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+}
+
+/* ── Hyperlink ── */
+.wpf-hyperlink {
+  color: var(--vscode-textLink-foreground, #3794ff);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.wpf-hyperlink:hover { color: var(--vscode-textLink-activeForeground, #5cb0ff); }
+
+/* ── TreeView ── */
+.wpf-treeview {
+  padding: 6px;
+  margin: 4px 0;
+  border: 1px solid rgba(128,128,128,0.25);
+  border-radius: 4px;
+  font-size: 12px;
+}
+.wpf-treeviewitem-header {
+  padding: 2px 4px;
+  cursor: default;
+  border-radius: 2px;
+}
+.wpf-treeviewitem-header:hover { background: rgba(128,128,128,0.12); }
+.wpf-treeviewitem-children { padding-left: 16px; }
+
+/* ── ListView ── */
+.wpf-listview {
+  border: 1px solid var(--vscode-panel-border, rgba(128,128,128,0.3));
+  border-radius: 4px;
+  margin: 4px 0;
+  overflow: hidden;
+}
+.wpf-listview-header {
+  display: flex;
+  background: rgba(0,120,212,0.15);
+  font-weight: 600;
+  font-size: 11px;
+}
+.wpf-listview-row {
+  display: flex;
+  border-top: 1px solid rgba(128,128,128,0.15);
+  font-size: 11px;
+}
+.wpf-listview-row:hover { background: rgba(128,128,128,0.08); }
+.wpf-listview-cell { flex: 1; padding: 4px 8px; }
+
+/* ── Generic containers ── */
+.wpf-itemscontrol,
+.wpf-contentcontrol,
+.wpf-usercontrol,
+.wpf-frame,
+.wpf-page {
+  padding: 6px;
+  margin: 4px 0;
+  border: 1px dashed rgba(128,128,128,0.2);
+  border-radius: 4px;
+}
+
+.wpf-usercontrol { border-style: solid; border-color: rgba(0,120,212,0.35); }
+.wpf-page { background: rgba(128,128,128,0.03); }
+
+/* ── Shapes (SVG) ── */
+.wpf-shape {
+  display: inline-block;
+  margin: 4px;
+  vertical-align: middle;
+}
+
+/* ── ToolBar ── */
+.wpf-toolbartray {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 4px 0;
+}
+.wpf-toolbar {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  padding: 4px 6px;
+  background: rgba(128,128,128,0.1);
+  border: 1px solid rgba(128,128,128,0.2);
+  border-radius: 3px;
+}
+
+/* ── Popup / ToolTip / ContextMenu ── */
+.wpf-popup {
+  display: inline-block;
+  padding: 6px 10px;
+  margin: 4px 0;
+  background: var(--vscode-editor-background);
+  border: 1px solid #0078d4;
+  border-radius: 4px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+}
+.wpf-tooltip {
+  display: inline-block;
+  padding: 3px 8px;
+  background: #ffffe1;
+  color: #000;
+  border: 1px solid #767676;
+  border-radius: 2px;
+  font-size: 11px;
+}
+.wpf-contextmenu {
+  display: inline-flex;
+  flex-direction: column;
+  padding: 3px 0;
+  background: var(--vscode-menu-background, #252526);
+  color: var(--vscode-menu-foreground, #ccc);
+  border: 1px solid var(--vscode-menu-border, rgba(128,128,128,0.3));
+  border-radius: 3px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+  min-width: 140px;
+}
+.wpf-contextmenu > .wpf-menu-item {
+  padding: 4px 18px;
+  border-radius: 0;
+}
+.wpf-contextmenu > .wpf-menu-item:hover {
+  background: var(--vscode-menu-selectionBackground, rgba(0,120,212,0.3));
+}
